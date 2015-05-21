@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Downloads</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script language=javascript>
+function Check(checkFlag)
+{
+ var i;
+ if (document.theForm["delete"].length>1)
+ {
+  for (i=0;i<document.theForm["delete"].length;i++)
+  {
+   if (!document.theForm["delete"][i].disabled) document.theForm["delete"][i].checked=checkFlag;
+  }
+ }
+ else if (!document.theForm["delete"].disabled) document.theForm["delete"].checked=checkFlag;
+}
+function LoadAllPreviews()
+{
+ var elements=document.getElementsByClassName('pp');
+ for (var i=0;i<elements.length;i++) elements[i].src=elements[i].name;
+}
+</script></head>
+<body>
+<div id="header">
+<h1>Captured Files</h1>
+<p><a href="index.html">Return to main page</a></p>
+<p>Files in italics are currently being captured.<br>Low Quality (LQ) links are for shorter download times over slow connections.</p>
+</div>
+<div align="center">
+<form name="theForm" method="post" action="++delete">
+<table id="general-table" border="1">
+</table>
+<p>**iFileCount**</p>
+<input type="button" value="Select All" onClick="Check(true)">
+<input type="button" value="Deselect All" onClick="Check(false)">
+<input type="submit" name="Delete selected files" value="Delete selected files">
+<input type="button" value="Load all previews" onClick="LoadAllPreviews()">
+</form>
+</div>
+<br>
+</body>
+</html>

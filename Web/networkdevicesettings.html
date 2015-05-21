@@ -1,0 +1,95 @@
+<table>
+<tbody>
+
+<tr>
+<td colspan="2">
+<strong>Device Settings (Network Device)</strong>
+</td>
+</tr>
+
+<tr>
+<td>Device type:</td>
+<td><select name="ndDeviceType" class="myselect" onchange="DoNetworkDeviceTypeMenu();"></select></td>
+</tr>
+
+<tr>
+<td>IP address:</td>
+<td><input name="ndIPAddress" type="text" maxlength="63"></td>
+</tr>
+
+<tr>
+<td>HTTP port:</td>
+<td><input name="ndPortHTTP" type="text" maxlength="5"></td>
+</tr>
+
+<tr>
+<td>RTSP port:</td>
+<td><input name="ndPortRTSP" type="text" maxlength="5"></td>
+</tr>
+
+<tr>
+<td>Encryption:</td>
+<td><input name="ndEncryption" type="checkbox" value="1"><label><input name="ndEncryption" type="hidden" value="0"> Use Secure Sockets Layer (SSL)</label></td>
+</tr>
+
+<tr>
+<td>Username:</td>
+<td><input name="ndUsername" type="text" maxlength="31" autocomplete="off"></td>
+</tr>
+
+<tr>
+<td>Password:</td>
+<td><input name="ndPassword" type="password" maxlength="31" autocomplete="off"></td>
+</tr>
+
+<tr>
+<td>Format:</td>
+<td><select name="ndFormat" class="myselect" onchange="ndFormatDefault=this.value;DoNetworkDeviceTypeMenu();"></select></td>
+</tr>
+
+<tr>
+<td>Input number:</td>
+<td><select name="ndInputNumber" class="myselect" onchange="ndInputNumberDefault=this.value;"></select></td>
+</tr>
+
+<tr>
+<td>Frame rate:</td>
+<td>
+<select name="ndFrameRate" class="myselect" onchange="ndFrameRateDefault=this.value;">
+<option value="0">Default</option>
+<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+<option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+<option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td>Video size:</td>
+<td>
+<input name="ndVideoWidth" type="text" style="width:48px" maxlength="4" onchange="ndVideoWidthDefault=this.value;"> x <input name="ndVideoHeight" type="text" style="width:48px" maxlength="4" onchange="ndVideoHeightDefault=this.value">
+</td>
+</tr>
+
+<tr>
+<td>Quality:</td>
+<td>
+<select name="ndQuality" class="myselect" onchange="ndQualityDefault=this.value">
+<option value="0">Default</option>
+<option value="1">Low</option>
+<option value="2">Medium</option>
+<option value="3">High</option>
+<option value="4">Maximum</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td colspan="2">
+<label><input name="ndNoRecompression" type="checkbox" value="1"><input name="ndNoRecompression" type="hidden" value="0"> No recompression of data from this device</label><br>
+<label><input name="ndDisablePTZ" type="checkbox" value="1"><input name="ndDisablePTZ" type="hidden" value="0"> Disable Pan/Tilt/Zoom support for this device</label>
+</td>
+</tr>
+
+</tbody>
+</table>

@@ -1,0 +1,12 @@
+body {padding: 4;}
+th, td { margin: 0; padding: 1; } 
+html {overflow: hidden;}
+
+html,body{
+	background:#ededed;
+	color:#000;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+	font-size:13px;
+	font-weight:300;
+	line-height:13px;
+}

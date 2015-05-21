@@ -1,0 +1,28 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Error Log</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<style type="text/css">
+<!--
+p {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px}
+-->
+</style>
+<script>
+function DoScroll()
+{
+ var obj=document.getElementById("text1");
+ obj.scrollTop=obj.scrollHeight;
+}
+</script>
+</head>
+<body onLoad="DoScroll();">
+<p align="center"><font size="3"><b>Error Log</b></font></p>
+<p align="center">Click <a href="index.html">here</a> to return to main page</p>
+<div align="center">
+<textarea id="text1" cols="90" rows="50" readonly="readonly" wrap="virtual"></textarea>
+<p>(New entries are at the bottom)</p>
+<p><form name="form1" method="post" action="++clearerrorlog"><input type="submit" name="Submit" value="Clear error log"></form></p>
+</div>
+</body>
+</html>

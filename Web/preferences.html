@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<link rel="stylesheet" type="text/css" href="css/lion-ui-kit.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/box.css">
+
+<title>Preferences</title>
+
+<script type="text/javascript" src="js/box.js"></script>
+<script>
+function ValidateForm() {
+	var portHTTP=document.getElementById('portHTTPText').value;
+	var portHTTPS=document.getElementById('portHTTPSText').value;
+	var port=0;
+	
+	if ((portHTTP>0)&&(portHTTP<1024)) port=portHTTP;
+	else if ((portHTTPS>0)&&(portHTTPS<1024)) port=portHTTPS;
+	
+	if (port) {
+	 return confirm("Warning: by default, Mac OS X does not allow server software to use any port below 1024. Are you sure you want to set the web server port to "+port+"?");	
+	}
+
+	return true;
+}
+</script>
+</head>
+
+<body>
+
+<div id="header-container">
+<div id="header">
+<h1>SecuritySpy Web Server</h1>
+<br>
+<h2>Preferences</h2>
+</div>
+</div>
+
+<div id="content" class="group">
+<div id="main" class="main">
+<div id="box1" class="depressed-box">
+<div id="box1-content">
+<div id="box1-page1">
+
+<form name="form0" method="post" action="preferences" autocomplete="off">
+<table id="settings-camera-table">
+<tbody>
+	
+<tr>
+<td>
+	
+<table>
+<tbody>
+<tr>
+<td colspan="2"><strong>General</strong></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="remove1Check" type="checkbox" value="1"> Auto-remove files older than:</label><input name="remove1Check" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" alt="" width="17">on the startup volume:</td>
+<td><input name="remove1Text" type="text" style="width:48px" maxlength="4" title="Removes files older than the specified number of days"> days</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" alt="" width="17">on other volumes:</td>
+<td><input name="remove1Text2" type="text" style="width:48px" maxlength="4" title="Removes files older than the specified number of days"> days</td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="remove2Check" type="checkbox" value="1"> Auto-remove old files to maintain free disk space:</label><input name="remove2Check" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" alt="" width="17">on the startup volume:</td>
+<td><input name="remove2Text" type="text" style="width:48px" maxlength="6" title="Removes files when disk space drops below the specified value"> GB</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" alt="" width="17">on other volumes:</td>
+<td><input name="remove2Text2" type="text" style="width:48px" maxlength="6" title="Removes files when disk space drops below the specified value"> GB</td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="dismissCheck" type="checkbox" value="1" title="Automatically closes any alert messages - recommended for autonomous operation"> Dismiss alert messages after 1 minute</label><input name="dismissCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr> 
+<td colspan="2"><label><input name="restartCheck" type="checkbox" value="1" title="Automatically restarts the software in the case of a crash"> Restart automatically after a crash</label><input name="restartCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="camInfoCheck" type="checkbox" value="1"> Display camera information in video windows</label><input name="camInfoCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="halfRateCheck" type="checkbox" value="1"> Display cameras at half frame rate in video windows</label><input name="halfRateCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="fullVolCheck" type="checkbox" value="1"> Set computer to full volume before playing sounds</label><input name="fullVolCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="mdPassiveCheck" type="checkbox" value="1" title="This saves CPU time when cameras are in passive mode"> Perform motion detection for cameras in Active mode only</label><input name="mdPassiveCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="autoSleepCheck" type="checkbox" value="1"> Allow automatic computer sleep</label><input name="autoSleepCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><label><input name="emailCheck" type="checkbox" value="1"> Email error reports to:</label><input name="emailCheck" type="hidden" value="0"></td>
+<td><input name="emailText" type="text" maxlength="63" title="Error reports will be emailed to this address"></td>
+</tr>
+
+<tr>
+<td></td>
+<td><button class="push" type="button" name="emailSettingsButton" title="Set the email settings" onClick="TINY.box.show({iframe:'emailsettings.html',width:420,height:476,close:0});return false;">Email settings...</button>
+</td>
+</tr>
+
+<tr>
+<td>Date ordering:</td>
+<td><select name="dateOrderMenu" class="myselect" title="This date ordering is used for file naming and text overlays">
+<option value="0">Day/Month/Year</option>
+<option value="1">Month/Day/Year</option>
+<option value="2">Year/Month/Day</option>
+<option value="3">Year/Day/Month</option>
+</select></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="12HourClockCheck" type="checkbox" value="1"> Use 12-hour clock for text overlays</label><input name="12HourClockCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td>Max. simultaneous FTP uploads:</td>
+<td><input name="maxFTPText" type="text" style="width:48px" maxlength="2"></td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table>
+<tbody>
+<tr>
+<td colspan="2"><strong>Web Server Settings</strong></td>
+</tr>
+
+<tr>
+<td><label><input name="enableHTTPCheck" type="checkbox" value="1"> HTTP server enabled on port:</label><input name="enableHTTPCheck" type="hidden" value="0"></td>
+<td><input name="portHTTPText" id="portHTTPText" type="text" style="width:48px" maxlength="6" title="The port used by the HTTP web server"></td>
+</tr>
+
+<tr>
+<td><label><input name="enableHTTPSCheck" type="checkbox" value="1"> HTTPS server enabled on port:</label><input name="enableHTTPSCheck" type="hidden" value="0"></td>
+<td><input name="portHTTPSText" id="portHTTPSText" type="text" style="width:48px" maxlength="6" title="The port used by the HTTPS web server"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="passwordCheck" type="checkbox" value="1" title="Requires a username and password to access the web server"> Password protected</label><input name="passwordCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><label><input name="accessControlCheck" type="checkbox" value="1" title="Allows you to limit web server access based on specified IP addresses"> Access control</label><input name="accessControlCheck" type="hidden" value="0"></td>
+<td><button class="push" type="button" title="Set the access control settings" onClick="TINY.box.show({iframe:'accesscontrol.html',width:420,height:605,close:0});return false;">Access control settings...</button></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="fastStartCheck" type="checkbox" value="1" title="Allows movie files to start playing while they are being downloaded"> Make movies Fast Start on-the-fly</label><input name="fastStartCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="logCheck" type="checkbox" value="1" title="Creates a log file of all connections to the web server"> Write log file of all connections</label><input name="logCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="bonjourCheck" type="checkbox" value="1" title="If enabled, this web server will be advertised via Bonjour, allowing web browers such as Safari to find it automatically"> Advertise this web server via Bonjour</label><input name="bonjourCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td>Bonjour/Server name:</td>
+<td><input name="realmText" type="text" maxlength="63"></td>
+</tr>
+
+<tr>
+<td>DDNS name:</td>
+<td><input name="ddnsText" type="text" style="width:48px" maxlength="12"> .viewcam.me</td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table>
+<tbody>
+<tr>
+<td colspan="2"><strong>Compression Settings</strong></td>
+</tr>
+<tr> 
+<td colspan="2">Video compression for local capture:</td>
+</tr>
+
+<tr> 
+<td><img src="img/spacer.png" alt="" width="17">Codec:</td>
+<td><select name="videoCodecMenu" class="myselect" title="The video compression codec: MPEG-4 is recommended for most circumstances">
+<option value="NO_V">None</option>
+<option value="jpeg">JPEG</option>
+<option value="mp4v">MPEG-4</option>
+<option value="avc1">H.264</option>
+</select></td>
+</tr>
+
+<tr> 
+<td><img src="img/spacer.png" alt="" width="17">Quality (0-100):</td>
+<td><input name="videoCodecQText" type="text" style="width:48px" maxlength="3" title="The video compression quality: the higher the quality the larger the file size of captured movies"></td>
+</tr>
+
+<tr> 
+<td><img src="img/spacer.png" alt="" width="17">Data rate:</td>
+<td><input name="dataRateText" type="text" style="width:48px" maxlength="8" title="The average data rate required for captured movie files - supported by MPEG-4 and H.264"> KBytes/s</td>
+</tr>
+
+<tr> 
+<td><img src="img/spacer.png" alt="" width="17"><label><input name="keyFrameCheck" type="checkbox" value="1" title="Enable temporal compression - supported by MPEG-4 and H.264"> Key frame every:</label><input name="keyFrameCheck" type="hidden" value="0"></td>
+<td><input name="keyFrameText" type="text" style="width:48px" maxlength="3" title="The key frame rate for temporal compression - supported by MPEG-4 and H.264"> frames</td>
+</tr>
+
+<tr> 
+<td colspan="2">Still image JPEG compression for local capture:</td>
+</tr>
+
+<tr> 
+<td><img src="img/spacer.png" alt="" width="17">Quality (0-100):</td>
+<td><input name="stillQualityText" type="text" style="width:48px" maxlength="3" title="The JPEG compression quality: the higher the quality the larger the file size"></td>
+</tr>
+
+<tr> 
+<td colspan="2">Still image JPEG compression for email/FTP upload:</td>
+</tr>
+
+<tr> 
+<td><img src="img/spacer.png" alt="" width="17">Quality (0-100):</td>
+<td><input name="uploadQualityText" type="text" style="width:48px" maxlength="3" title="The JPEG compression quality: the higher the quality the larger the file size"></td>
+</tr>
+
+<tr> 
+<td colspan="2">JPEG/MPEG-4 compression for video streaming:</td>
+</tr>
+
+<tr> 
+<td><img src="img/spacer.png" alt="" width="17">Quality (0-100):</td>
+<td><input name="streamingQualityText" type="text" style="width:48px" maxlength="3" title="The compression quality: the higher the quality the larger the data rate of the streamed video"></td>
+</tr>
+
+<tr> 
+<td colspan="2">Audio compression:</td>
+</tr>
+
+<tr> 
+<td><img src="img/spacer.png" alt="" width="17">Codec:</td>
+<td><select name="soundCodecMenu" class="myselect" title="The sound compression codec">
+<option value="NO_A">None</option>
+<option value="alac">Apple Lossless</option>
+<option value="ulaw">&mu;Law</option>
+<option value="mp4a">AAC</option>
+</select></td>
+</tr>
+
+<tr> 
+<td><img src="img/spacer.png" alt="" width="17">Quality (0-100):</td>
+<td><input name="audioQualityText" type="text" style="width:48px" maxlength="3" title="The compression quality for audio - only applicable to AAC"></td>
+</tr>
+
+</tbody>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table>
+<tbody>
+<tr>
+<td colspan="2"><strong>Registration</strong></td>
+</tr>
+<tr> 
+<td>License name:</td>
+<td><input name="licenseName" type="text" style="width:170px" maxlength="150"></td>
+</tr>
+
+<tr> 
+<td>License code:</td>
+<td><input name="licenseCode" type="text" style="width:170px" maxlength="63"></td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+<p class="aligncenter"><button class="push" type="submit" style="width:50px" name="action" value="cancel">Cancel</button> <button class="push" type="submit" style="width:50px" name="action" value="save" onClick="return ValidateForm();">Save</button></p>
+</form>
+
+</div><!-- #box1-page1 -->
+</div><!-- #box1-content -->
+</div><!-- #box1 -->
+</div><!-- #main -->
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+	
+	<link rel="stylesheet" type="text/css" href="css/lion-ui-kit.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="css/box.css">
+
+	<title>SecuritySpy</title>
+	
+	<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
+	<script type="text/javascript" src="js/box.js"></script>
+	
+<script language="JavaScript">
+<!--
+$(function() {
+    $("#date1Text").datepicker({dateFormat: "dd/mm/yy"});
+  });
+$(function() {
+    $("#date2Text").datepicker({dateFormat: "dd/mm/yy"});
+  });
+function HTTPGET(request) {
+	var i = document.createElement("img");
+	i.src = request;	
+}
+function DoScroll() {
+ var obj=document.getElementById("logtext");
+ obj.scrollTop=obj.scrollHeight;
+}
+//-->
+
+function SetUpSelectFix() {	//Credit to Yuriy Khabarov for this workaround to Apple's bug
+if(navigator.userAgent.match(/iPhone OS 7_0/i)) {
+	$('select[multiple]').each(function(){
+		var select = $(this).on({
+			"focusout": function(){
+				var values = select.val() || [];
+				setTimeout(function(){
+					select.val(values.length ? values : ['']).change();
+					}, 1000);
+				}
+			});
+		var firstOption = '<option value="" disabled="disabled"';
+		firstOption += (select.val() || []).length > 0 ? '' : ' selected="selected"';
+		firstOption += '>« Make your selection »';
+		firstOption += '</option>';
+		select.prepend(firstOption);
+	});
+}
+if (document.location.protocol=='https:') {
+	var op = document.getElementById("view-select").getElementsByTagName("option");
+	for (var i=0;i<op.length;i++) if (op[i].value==6) {
+		op[i].disabled=true;
+		op[i].text+=" (not available over HTTPS)";
+		break;
+	}
+}
+}
+
+</script>
+</head>
+<body onLoad="DoScroll();SetUpSelectFix();">
+	<div id="header-container">
+		<div id="header" class="group">
+			<h1>SecuritySpy Web Server</h1>
+			<img src="mainlogo.png" alt="" />
+		</div>
+	</div>
+
+	<div id="content" class="group">
+		<div class="grid_"></div>
+
+		<div id="main" class="main">
+			<div id="box1" class="depressed-box">
+			
+				<div id="pills1" class="segmented">
+					<input checked type="radio" name="video" id="live-video" />
+					<label class="push button" for="live-video"><span>Live video</span></label>
+					<input type="radio" name="video" id="captured-files" />
+					<label class="push button" for="captured-files"><span>Captured files</span></label>
+				</div>
+				
+				<div id="box1-content">
+					<div id="box1-page1" style="display: none;">
+						<form name="form0" method="post" action="live">
+						<p>Select the cameras for which you want to view live video:<br>
+						<select name="cameraNum" id="camera-select0" style="width:200px;padding:0;" size="6" multiple="multiple"></select>
+						</p>
+						
+						<p>Choose a streaming format:<br>
+							<select name="viewMethod" id="view-select" class="myselect">
+							<option value="0">Automatic</option>
+							<option value="6">QuickTime MPEG-4</option>
+							<option value="4">Server-push MJPEG</option>
+							<option value="3">JavaScript MJPEG</option>
+							<option value="5">Still image JPEG</option>
+						</select>
+						<a href="#"><img src="img/question.png" onClick="TINY.box.show({iframe:'streamingformats.html',width:600,height:700,scrolling:'yes'})"></a>
+						</p>
+						
+						<p>Choose an image size:<br>
+						<select name="imageSize" id="viewsize-select" class="myselect">
+							<option value="0">Automatic</option>
+							<option value="scale0.25">Quarter actual size</option>
+							<option value="scale0.5">Half actual size</option>
+							<option value="scale1">Actual size</option>
+							<option value="scale2">Double actual size</option>
+							<option value="scale4">Four times actual size</option>
+							<option value="320x240">320x240</option>
+							<option value="640x480">640x480</option>
+						</select>
+						</p>
+						<p class="aligncenter">
+							<button class="push" type="submit" onClick="document.form0.windowWidth.value=window.innerWidth-20;return true;">View Live Images</button>
+						</p>
+						<input type="hidden" name="windowWidth" value="0">
+						</form>
+					</div><!-- #box1-page1 -->
+					
+					<div id="box1-page2" style="display: none;">
+						<form name="form1" method="post" action="download">
+						<p>Select the cameras for which you want to view captured files:<br>
+						<select name="cameraNum" id="camera-select1" style="width:200px;padding:0;" size="6" multiple="multiple"></select>
+						</p>
+						<p>Enter an optional date range in the format day/month/year:<br>
+							<input type="text" name="date1Text" id="date1Text" style="width:82px" maxlength="8"> to <input type="text" name="date2Text" id="date2Text" style="width:82px" maxlength="8"> <button type="button" name="clearButton" id="clearButton" class="push" onClick="document.form1.date1Text.value='';document.form1.date2Text.value='';return false;">Clear</button>
+						</p>
+						<p>Alternatively, enter a maximum age:<br>
+							<input type="text" name="ageText" id="ageText" style="width:82px" maxlength="3"> days</p>
+						<p>Choose the types of files to display:<br><label><input type="checkbox" name="movieFilesCheck" id="movieFilesCheck" value="1" checked> Movie files</label><img src="img/spacer.png" width="17"><label><input type="checkbox" name="imageFilesCheck" id="imageFilesCheck" value="1" checked> Image files</label></p>
+						<p class="aligncenter">
+							<button class="push" name="format" value="list" type="submit">View As List</button> <button class="push" name="format" value="grid" type="submit">View As Grid</button>
+						</p>
+					</form>
+					</div>
+				</div><!-- #box1-content -->		
+
+			</div><!-- #box1 -->
+			
+			<div id="box2" class="depressed-box">
+			
+				<div id="pills2" class="segmented">
+					<input checked type="radio" name="console" id="status" />
+					<label class="push button" for="status"><span>Status</span></label>
+					<input type="radio" name="console" id="web-activity" />
+					<label class="push button" for="web-activity"><span>Web Activity</span></label>
+					<input type="radio" name="console" id="log" />
+					<label class="push button" for="log"><span>Log</span></label>
+				</div>
+				
+				<div id="box2-content">
+					<div id="box2-page1" style="display: none;">
+
+						<label><strong>Cameras</strong></label>
+							<br/>
+							<table id="cameras-table">
+								<tbody>
+									<statusinsert>
+								</tbody>
+							</table>
+						
+						<p id="hard-disk-meter-title"><label><strong>Hard Disk Usage</strong></label></p>
+						<hdusageinsert>
+					</div><!-- #box2-page1 -->
+					
+					<div id="box2-page2" style="display: none;">
+						<p><table id="activity-table"><tbody><tr><td width="90">IP</td><td width="90">Account</td><td>Page</td></tr><webactivityinsert></tbody></table></p>
+					</div>
+					
+					<div id="box2-page3" style="display: none;">
+						<textarea id="logtext" cols="50" rows="20" readonly="readonly" wrap="virtual"><loginsert></textarea>
+					</div>
+				</div><!-- #box2-content -->		
+
+			</div><!-- #box2 -->
+			
+			<p><button class="push" type="button" style="width:130px" onClick="top.location='preferences';return false;">Preferences</button> <button class="push" type="button" style="width:130px" onClick="top.location='camerasettings';return false;">Camera settings</button></p><br>
+			<p>Visit <a href="http://www.securityspy.com/">SecuritySpy.com</a> for news, information, and downloads.<br>SecuritySpy is written by Ben Bird.</p>
+			
+		</div><!-- #main -->
+	</div>
+
+	<script type="text/javascript">
+		var prev=1;
+		
+		$(document).ready(function() { 
+			$('#pills1 label').click(function(){ 
+				var selected = $(this).text();
+				if ( 'Live video' == selected ) {
+					$('#box1-page2').fadeOut('fast', function(){$('#box1-page1').fadeIn();});
+				}
+				else {
+					$('#box1-page1').fadeOut('fast', function(){$('#box1-page2').fadeIn();});
+				}
+			});
+			
+			$('#pills2 label').click(function(){ 
+				var selected = $(this).text();
+				if ( 'Status' == selected ) {
+					if (prev==3) $('#box2-page3').fadeOut('fast', function(){$('#box2-page1').fadeIn();});
+					else $('#box2-page2').fadeOut('fast', function(){$('#box2-page1').fadeIn();});
+					prev=1;
+				}
+				else if ( 'Web Activity' == selected ) {
+					if (prev==3) $('#box2-page3').fadeOut('fast', function(){$('#box2-page2').fadeIn();});
+					else $('#box2-page1').fadeOut('fast', function(){$('#box2-page2').fadeIn();});
+					prev=2;
+				}
+				else {
+					if (prev==1) $('#box2-page1').fadeOut('fast', function(){$('#box2-page3').fadeIn();});
+					else $('#box2-page2').fadeOut('fast', function(){$('#box2-page3').fadeIn();});
+					prev=3;
+				}
+			});
+			
+			var oldcs = allCookies.getItem('cameraselect0');
+			var valarr = (oldcs ? oldcs.split(',') : "");
+			$('#camera-select0').val(valarr);
+			$('#camera-select0').change(function(){
+				var newvals = $('#camera-select0').val();
+				allCookies.setItem('cameraselect0', newvals, Infinity);
+			});
+			
+			var oldcs = allCookies.getItem('cameraselect1');
+			var valarr = (oldcs ? oldcs.split(',') : "");
+			$('#camera-select1').val(valarr);
+			$('#camera-select1').change(function(){
+				var newvals = $('#camera-select1').val();
+				allCookies.setItem('cameraselect1', newvals, Infinity);
+			});
+			
+			$('#view-select').val(allCookies.getItem('viewselect'));
+			$('#view-select').change(function(){
+				allCookies.setItem('viewselect', $('#view-select').val(), Infinity);
+			});
+			
+			$('#viewsize-select').val(allCookies.getItem('viewsizeselect'));
+			$('#viewsize-select').change(function(){
+				allCookies.setItem('viewsizeselect', $('#viewsize-select').val(), Infinity);
+			});
+
+			$('#date1Text').val(allCookies.getItem('date1Text'));
+			$('#date1Text').change(function(){
+				allCookies.setItem('date1Text', $('#date1Text').val(), Infinity);
+			});
+			
+			$('#date2Text').val(allCookies.getItem('date2Text'));
+			$('#date2Text').change(function(){
+				allCookies.setItem('date2Text', $('#date2Text').val(), Infinity);
+			});
+
+			$('#clearButton').click(function(){
+				allCookies.setItem('date1Text', '', Infinity);
+				allCookies.setItem('date2Text', '', Infinity);
+			});
+
+			$('#ageText').val(allCookies.getItem('ageText'));
+			$('#ageText').change(function(){
+				allCookies.setItem('ageText', $('#ageText').val(), Infinity);
+			});
+
+			if ( 'false' == allCookies.getItem('movieFilesCheck') ) $('#movieFilesCheck').prop('checked',false);
+			$('#movieFilesCheck').change(function(){
+				allCookies.setItem('movieFilesCheck', $('#movieFilesCheck').is(':checked'), Infinity);
+			});
+			
+			if ( 'false' == allCookies.getItem('imageFilesCheck') ) $('#imageFilesCheck').prop('checked',false);
+			$('#imageFilesCheck').change(function(){
+				allCookies.setItem('imageFilesCheck', $('#imageFilesCheck').is(':checked'), Infinity);
+			});
+
+			if ( 'on' == $('input[id=live-video]:checked').val() ) $('#box1-page1').fadeIn(0);
+			else $('#box1-page2').fadeIn(0);
+			
+			if ( 'on' == $('input[id=status]:checked').val() ) {$('#box2-page1').fadeIn(0);prev=1;}
+			else if ( 'on' == $('input[id=web-activity]:checked').val() ) {$('#box2-page2').fadeIn(0);prev=2;}
+			else {$('#box2-page3').fadeIn(0);prev=3;}
+		});
+	</script>
+</body>
+</html>

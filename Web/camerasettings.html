@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+<link rel="stylesheet" type="text/css" href="css/lion-ui-kit.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/box.css">
+
+<title>Camera Settings</title>
+
+<script type="text/javascript" src="js/box.js"></script>
+<script>
+<!--
+function DoCameraJumpMenu(obj) {
+parent.location="camerasettings?cameraNum="+obj.options[obj.selectedIndex].value;
+}
+
+var ndVideoWidthDefault;
+var ndVideoHeightDefault;
+var ndInputNumberDefault;
+var ndFrameRateDefault;
+var ndQualityDefault;
+var ndFormatDefault;
+var ndFormatNames;
+
+function DoNetworkDeviceTypeMenu(menu) {
+ var capabilities=new Array();
+ var inputCount=0;
+ var zeroBasedFlag=0;
+ var formatCount=0;
+ var firstFormat=-1;
+ var formatAvailableFlag=0;
+
+ switch (document.form0.ndDeviceType.selectedIndex) {
+//**iDeviceTypeConditions**
+ }
+ 
+ document.form0.ndInputNumber.options.length=0;
+ document.form0.ndFormat.options.length=0;
+ 
+ for (i=0;i<ndFormatNames.length;i++) {
+if (capabilities[i]) {
+document.form0.ndFormat.options[formatCount++]=new Option(ndFormatNames[i],i,false,false);
+if (firstFormat<0) firstFormat=i;if (ndFormatDefault==i) formatAvailableFlag=1;
+}
+ }
+ if (!formatAvailableFlag) {ndFormatDefault=firstFormat;document.form0.ndFormat.value=ndFormatDefault;}
+
+ if (formatCount>1) {
+  document.form0.ndFormat.value=ndFormatDefault;
+  document.form0.ndFormat.disabled=false;
+ }
+ else {
+  document.form0.ndFormat.value=firstFormat;
+  document.form0.ndFormat.disabled=true;
+ }
+
+ if (inputCount) {
+  if (zeroBasedFlag) for (i=0;i<inputCount;i++) document.form0.ndInputNumber.options[i]=new Option(i,i,false,false);
+  else for (i=0;i<inputCount;i++) document.form0.ndInputNumber.options[i]=new Option(i+1,i,false,false);
+  
+  if (ndInputNumberDefault>=inputCount) ndInputNumberDefault=0;
+  document.form0.ndInputNumber.value=ndInputNumberDefault;
+  document.form0.ndInputNumber.disabled=false;
+ }
+ else {
+  document.form0.ndInputNumber.options[0]=new Option(1,0,true,true);
+  document.form0.ndInputNumber.value=0;
+  document.form0.ndInputNumber.disabled=true;
+ }
+ 
+ if (capabilities[ndFormatDefault]&4) {
+  document.form0.ndFrameRate.value=ndFrameRateDefault;
+  document.form0.ndFrameRate.disabled=false;
+ }
+ else {
+  document.form0.ndFrameRate.value=0;
+  document.form0.ndFrameRate.disabled=true;
+ }
+ 
+ if (capabilities[ndFormatDefault]&2) {
+  if (ndVideoWidthDefault) document.form0.ndVideoWidth.value=ndVideoWidthDefault;
+  if (ndVideoHeightDefault) document.form0.ndVideoHeight.value=ndVideoHeightDefault;
+  document.form0.ndVideoWidth.disabled=false;
+  document.form0.ndVideoHeight.disabled=false;
+ }
+ else {
+  document.form0.ndVideoWidth.value="";
+  document.form0.ndVideoHeight.value="";
+  document.form0.ndVideoWidth.disabled=true;
+  document.form0.ndVideoHeight.disabled=true;
+ }
+
+ if (capabilities[ndFormatDefault]&8) {
+  document.form0.ndQuality.value=ndQualityDefault;
+  document.form0.ndQuality.disabled=false;
+ }
+ else {
+  document.form0.ndQuality.value=0;
+  document.form0.ndQuality.disabled=true;
+ }
+}
+//-->
+</script>
+</head>
+
+<body>
+
+<div id="header-container">
+<div id="header">
+<h1>SecuritySpy Web Server</h1>
+<br>
+<h2>Camera Settings</h2>
+</div>
+</div>
+
+<div id="content" class="group">
+<div id="main" class="main">
+<div id="box1" class="depressed-box">
+<div id="box1-content">
+<div id="box1-page1">
+
+<form name="form0" method="post" action="camerasettings" autocomplete="off">
+<input style="display:none">
+<input type="password" style="display:none">
+<table id="settings-camera-table">
+<tbody>
+	
+<tr>
+<td>
+	
+<table>
+<tbody>
+<tr>
+<td>Settings for:</td>
+<td><select name="cameraNum" class="myselect" onChange="DoCameraJumpMenu(this)"></select></td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+**iDeviceSettings**
+</td>
+</tr>
+<tr>
+<td>
+	
+<table>
+<tbody>
+<tr>
+<td colspan="2"><strong>Setup</strong></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="camEnabledCheck" type="checkbox" value="1" title="Enables or disables the camera completely"> Camera enabled</label><input name="camEnabledCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="deintCheck" type="checkbox" value="1" title="Removes interlaced artifacts from analog video"> Deinterlace (for analog video)</label><input name="deintCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td>Camera name:</td>
+<td><input name="cameraName" type="text" maxlength="31" title="The name of the camera - for example &quot;Front door&quot;"></td>
+</tr>
+
+<tr>
+<td>Transformation:</td>
+<td>
+<select name="transformationMenu" class="myselect">
+<option value="0">None</option>
+<option value="1">Rotate 180&#176;</option>
+<option value="2">Rotate 90&#176; CW</option>
+<option value="3">Rotate 90&#176; CCW</option>
+<option value="4">Flip horizontal</option>
+<option value="5">Flip vertical</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><label><input name="overlayCheck" type="checkbox" value="1" title="Overlay text onto all video frames"> Overlay text:</label><input name="overlayCheck" type="hidden" value="0"></td>
+<td><input name="overlayText" type="text" maxlength="200" title="The text to overlay: enter &quot;+d&quot; for date or &quot;+n&quot; for camera name"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Overlay font size:</td>
+<td><input name="overlayFontSize" type="text" style="width:24px" maxlength="2" title="The font size of the overlay text"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Overlay position:</td>
+<td><select name="overlayPosition" class="myselect" title="The position of the overlay on the video image">
+<option value="0">Top left</option>
+<option value="1">Top right</option>
+<option value="2">Bottom left</option>
+<option value="3">Bottom right</option>
+</select></td>
+</tr>
+
+<tr>
+<td><label><input name="scheduleCheck" type="checkbox" value="1" title="Sets the camera to active mode based on a schedule"> Schedule:</label><input name="scheduleCheck" type="hidden" value="0"></td>
+<td><select name="scheduleMenu" class="myselect"></select></td>
+</tr>
+
+<tr>
+<td>Capture destination:</td>
+<td><button class="push" type="button" name="captureDestButton" title="Set the destination for captured footage" onClick="TINY.box.show({iframe:'capturedest?cameraNum='+document.form0.cameraNum.options[document.form0.cameraNum.selectedIndex].value,width:420,height:590,close:0});return false;">Set capture destination...</button></td>
+</tr>
+
+<tr height="10">
+<td colspan="2"></td>
+</tr>
+
+<tr>
+<td colspan="2">Motion capture and actions are triggered by the following:</td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="mdCheck" type="checkbox" value="1" title="Enables motion detection for this camera"> Motion detection</label><input name="mdCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Sensitivity:</td>
+<td><input name="mdSensitivityText" type="text" style="width:24px" maxlength="3" title="The sensitivity of the motion detection, from 0 to 100"> %</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Trigger time:</td>
+<td><select name="mdTriggerTime" class="myselect" title="The amount of time over which motion must occur before triggering capture - longer times reduce false-positive triggers">
+<option value="0">1 frame</option>
+<option value="1">0.5 seconds</option>
+<option value="2">1.0 seconds</option>
+<option value="3">1.5 seconds</option>
+<option value="4">2.0 seconds</option>
+<option value="5">2.5 seconds</option>
+<option value="6">3.0 seconds</option>
+<option value="7">3.5 seconds</option>
+<option value="8">4.0 seconds</option>
+</select></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Mask:</td>
+<td><button class="push" type="button" name="motionMaskButton" title="Set the motion-detection mask" onClick="TINY.box.show({iframe:'setmask?cameraNum='+document.form0.cameraNum.options[document.form0.cameraNum.selectedIndex].value,width:650,height:740,close:0});return false;">Set motion mask...</button></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="mdSoundTriggerCheck" type="checkbox" value="1" title="Trigger motion-detection capture by audio"> Audio detection</label><input name="mdSoundTriggerCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Trigger level:</td>
+<td><input name="mdSoundTriggerText" type="text" style="width:24px" maxlength="2" title="This is the audio level that will trigger a motion-detection capture"> %</td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="mdInputPort1" type="checkbox" value="1" title="Trigger motion-detection capture from the camera's input port 1"> Camera input port 1</label><input name="mdInputPort1" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="mdInputPort2" type="checkbox" value="1" title="Trigger motion-detection capture from the camera's input port 2"> Camera input port 2</label><input name="mdInputPort2" type="hidden" value="0"></td>
+</tr>
+
+</tbody>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table>
+<tbody>
+<tr>
+<td colspan="2"><strong>Audio</strong></td>
+</tr>
+
+<tr>
+<td>Audio input:</td>
+<td><select name="soundSourceMenu" class="myselect" title="Choose a sound input device to associate with this camera"></select></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="tlRecordSoundCheck" type="checkbox" value="1"> Record audio with continuous/timelapse movies</label><input name="tlRecordSoundCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="mdRecordSoundCheck" type="checkbox" value="1"> Record audio with motion-detection (MD) movies</label><input name="mdRecordSoundCheck" type="hidden" value="0"></td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table>
+<tbody>
+<tr>
+<td colspan="2"><strong>Continuous/timelapse capture</strong></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="tlCaptureMovieCheck" type="checkbox" value="1" title="Capture a timelapse movie whenever the camera is in active mode"> Capture timelapse movie</label><input name="tlCaptureMovieCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Capture frequency:</td>
+<td><input name="tlFPSText" style="width:24px" type="text" size="4" maxlength="4" title="Leave blank to capture as fast as possible"> 
+<select name="tlFPSUnitsMenu" class="myselect" style="width:150px">
+<option value="0">seconds per frame</option>
+<option value="1">frames per second</option>
+</select></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Playback frame rate:</td>
+<td><input name="tlPlaybackFPSText" type="text" style="width:24px" maxlength="3" title="Leave blank for real-time playback"> 
+frames per second</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Create a new movie:</td>
+<td><label><input name="tlCreateNewRadio" value="0" type="radio" title="Create a new timelapse movie every day at midnight">
+Daily (at midnight)</label></td>
+</tr>
+
+<tr>
+<td></td>
+<td><label><input name="tlCreateNewRadio" value="3" type="radio" title="Create a new timelapse movie every hour"> Hourly (on the hour)</label></td>
+</tr>
+
+<tr>
+<td></td>
+<td><label><input name="tlCreateNewRadio" value="1" type="radio" title="Create a new timelapse movie whenever the camera is switched to active mode"> Upon active mode</label></td>
+</tr>
+
+<tr>
+<td></td>
+<td><label><input name="tlCreateNewRadio" value="2" type="radio" title="Create a new timelapse movie after a specified time">
+Every </label><input name="tlCreateNewText" type="text" style="width:24px" maxlength="4"> 
+<select name="tlCreateNewMenu" class="myselect" style="width:96px">
+<option value="0">minutes</option>
+<option value="1">hours</option>
+<option value="2">days</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17"><label><input name="tlFTPUploadMoviesCheck" type="checkbox" value="1"> Upload to FTP server:</label><input name="tlFTPUploadMoviesCheck" type="hidden" value="0"></td>
+<td><select name="tlFTPServerMenu0" class="myselect"></select></td>
+</tr>
+
+<tr>
+<td><label>
+<input name="tlImageCaptureCheck" type="checkbox" value="1" title="Capture image files whenever the camera is in active mode"> Capture an image file every:</label><input name="tlImageCaptureCheck" type="hidden" value="0"></td>
+<td><input name="tlImageCaptureIntervalText" type="text" style="width:24px" maxlength="4"> seconds</td>
+</tr>
+
+<tr>
+<td colspan="2"><label>
+<input name="tlFTPUpdateCheck" type="checkbox" value="1" title="Periodically update an image on an FTP server"> Update image file on FTP server (webcam image)</label><input name="tlFTPUpdateCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Time between updates:</td>
+<td><input name="tlFPTUpdateFreq" type="text" style="width:24px" maxlength="4"> seconds</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">FTP server:</td>
+<td><select name="tlFTPServerMenu1" class="myselect"></select></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">File name on server:</td>
+<td><input name="tlFTPUpdateFileNameText" type="text" maxlength="31"></td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table>
+<tbody>
+<tr>
+<td colspan="2"><strong>Motion capture</strong></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="mdCaptureMovieCheck" type="checkbox" value="1"> Capture movie when motion is detected</label><input name="mdCaptureMovieCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Capture type:</td>
+<td><select name="mdCaptureTypeMenu" class="myselect">
+<option value="0">separate movie per event</option>
+<option value="1">one movie per day</option>
+</select></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Capture frame rate:</td>
+<td><input name="mdFrameRateText" type="text" style="width:24px" maxlength="2" title="Leave blank to capture as fast as possible"> frames per second</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Pre-capture time:</td>
+<td><input name="mdPreCaptureText" type="text" style="width:24px" maxlength="2" title="Number of seconds of video to capture before the time of motion"> seconds</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Post-capture time:</td>
+<td><input name="mdPostCaptureText" type="text" style="width:24px" maxlength="5" title="Number of seconds of video to capture after motion stops"> seconds</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17"><label><input name="mdFTPUploadMoviesCheck" type="checkbox" value="1"> Upload to FTP server:</label><input name="mdFTPUploadMoviesCheck" type="hidden" value="0"></td>
+<td><select name="mdFTPServerMenu1" class="myselect"></select></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="mdCaptureImageCheck" type="checkbox" value="1"> Capture image files when motion is detected</label><input name="mdCaptureImageCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Time between captures:</td>
+<td><input name="mdImageFreqText" type="text" style="width:24px" maxlength="5"> seconds</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Post-capture time:</td>
+<td><input name="mdImagePostCaptureText" type="text" style="width:24px" maxlength="5" title="Number of seconds to continue capturing images after motion stops"> seconds</td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17"><label><input name="mdUploadImagesCheck" type="checkbox" value="1"> Upload to FTP server:</label><input name="mdUploadImagesCheck" type="hidden" value="0"></td>
+<td><select name="mdFTPServerMenu2" class="myselect"></select></td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<table>
+<tbody>
+<tr>
+<td colspan="2"><strong>Actions when motion is detected</strong></td>
+</tr>
+
+<tr>
+<td><label><input name="playSoundCheck" type="checkbox" value="1"> Play sound:</label><input name="playSoundCheck" type="hidden" value="0"></td>
+<td><select name="soundMenu" class="myselect"></select></td>
+</tr>
+
+<tr>
+<td><img src="img/spacer.png" width="17">Duration to play sound:</td>
+<td><input name="soundPlayDurationText" type="text" style="width:24px" maxlength="6"> seconds</td>
+</tr>
+
+<tr>
+<td><label><input name="runScriptCheck" type="checkbox" value="1"> Run script:</label><input name="runScriptCheck" type="hidden" value="0"></td>
+<td><select name="scriptMenu" class="myselect"></select></td>
+</tr>
+
+<tr>
+<td><label><input name="sendEmailCheck" type="checkbox" value="1"> Send email to:</label><input name="sendEmailCheck" type="hidden" value="0"></td>
+<td><input name="emailText" type="text" size="28" maxlength="255" title="Send email to this address when motion is detected">
+</td>
+</tr>
+
+<tr>
+<td></td>
+<td><button class="push" type="button" title="Set the email settings" onClick="TINY.box.show({iframe:'emailsettings.html',width:420,height:476,close:0});return false;">Email settings...</button></td>
+</tr>
+
+<tr>
+<td colspan="2"><label><input name="frontCheck" type="checkbox" value="1"> Come to the front and open camera preview window</label><input name="frontCheck" type="hidden" value="0"></td>
+</tr>
+
+<tr>
+<td>Delay before performing action:</td>
+<td><input name="delayText" type="text" style="width:24px" maxlength="3" title="The number of seconds to wait after the motion trigger, before performing an action"> seconds</td>
+</tr>
+
+<tr>
+<td>Delay before repeating action:</td>
+<td><input name="resetTimeText" type="text" style="width:24px" maxlength="3" title="The minimum time after an action has been triggered, before it can be triggered again"> seconds</td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+<p class="aligncenter"><button class="push" style="width:50px" type="submit" name="action" value="cancel">Cancel</button> <button class="push" style="width:50px" type="submit" name="action" value="save">Save</button></p>
+</form>
+
+</div><!-- #box1-page1 -->
+</div><!-- #box1-content -->
+</div><!-- #box1 -->
+</div><!-- #main -->
+</div>
+</body>
+</html>

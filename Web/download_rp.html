@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<title>Downloads</title>
+<script language=javascript>
+function Check(checkFlag)
+{
+ var i;
+ if (document.theForm["delete"].length>1)
+ {
+  for (i=0;i<document.theForm["delete"].length;i++)
+  {
+   if (!document.theForm["delete"][i].disabled) document.theForm["delete"][i].checked=checkFlag;
+  }
+ }
+ else if (!document.theForm["delete"].disabled) document.theForm["delete"].checked=checkFlag;
+}
+</script></head>
+<body>
+<p align="center"><b><font size="3">Captured Footaged</font></b></p>
+<p align="center">Click <a href="index.html">here</a> to return to main page</p>
+<form name="theForm" method="post" action="++delete">
+<div align="center">
+<table border="1" style="margin:0px;padding:0px;border:1;border-collapse: collapse;">
+</table>
+<p align="center">**iFileCount**</p>
+<p align="center">Files in italics are currently being captured.<br>&quot;Quick&quot; links are for shorter download times over slow connections.</p>
+<div align="center"><input type="button" value="Select All" onClick="Check(true)">
+<input type="button" value="Deselect All" onClick="Check(false)">
+<input type="submit" name="Delete selected files" value="Delete selected files"></div>
+</form>
+</body>
+</html>

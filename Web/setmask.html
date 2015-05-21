@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Set Mask</title>
+<link rel="stylesheet" type="text/css" href="css/lion-ui-kit.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script>
+var img=0;
+var count=0;
+var maskArray;
+var url="";
+
+function setupStuff() {
+	img=document.getElementById("maskedImage");
+
+    if (typeof maskArray === 'undefined') {
+		img.src="img/novideo.jpg";
+		document.getElementById("save").disabled=true;
+		document.getElementById("drawSize0").disabled=true;
+		document.getElementById("drawSize1").disabled=true;
+		document.getElementById("drawSize2").disabled=true;
+		document.getElementById("setAllButton").disabled=true;
+		document.getElementById("clearAllButton").disabled=true;
+		document.getElementById("invertAllButton").disabled=true;
+	}
+	else {
+		img.style.cursor="crosshair";
+		img.addEventListener("mousedown",imageClick,false);
+	
+		url="++maskedimage?cameraNum="+document.form1.cameraNum.value+"&";
+	
+		updateImage();
+	}
+}
+
+function clearAll() {
+	for (var i=0;i<32;i++) maskArray[i]=0;
+}
+
+function setAll() {
+	for (var i=0;i<32;i++) maskArray[i]=0xFFFFFFFF;
+}
+
+function invertAll() {
+	for (var i=0;i<32;i++) maskArray[i]=(~maskArray[i])>>>0;
+}
+
+function setMaskElementValues() {
+	for (var i=0;i<32;i++) {
+		var m=document.getElementById("m"+i);
+		m.value=maskArray[i].toString(16);
+	}
+}
+
+function imageClick(e) {
+    var parentPosition = getPosition(e.currentTarget);
+    var x = Math.floor(32*(e.clientX-parentPosition.x)/img.width);
+    var y = Math.floor(32*(e.clientY-parentPosition.y)/img.height);
+
+    var bit=1<<x;
+    var set=maskArray[y]&bit;
+	var drawSize=0;
+	
+	if (document.getElementById("drawSize1").checked) drawSize=1;
+	else if (document.getElementById("drawSize2").checked) drawSize=2;
+
+	for (var i=0;i<32;i++) if ((i>=x-drawSize)&&(i<=x+drawSize)) bit|=1<<i;
+	
+    for (var i=0;i<32;i++) {
+		if ((i>=y-drawSize)&&(i<=y+drawSize)) {
+			if (set) maskArray[i]=(maskArray[i]&(~bit))>>>0;
+    		else maskArray[i]=(maskArray[i]|bit)>>>0;
+		}
+	}
+}
+ 
+function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+      
+    while (element) {
+        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+        element = element.offsetParent;
+    }
+    return { x: xPosition, y: yPosition };
+}
+
+function updateImage() {
+	var newURL=url;
+	
+	for (var i=0;i<32;i++) newURL+=i+'='+maskArray[i].toString(16)+'&';
+	
+	newURL+=count;
+	count++;
+	
+	img.src=newURL;
+}
+</script>
+</head>
+<body onload="setupStuff()">
+<div id="header">
+<h1>Set Mask</h1>
+<p>Parts of the image masked by the green area will be ignored.</p>
+</div>
+<div align="center"><img id="maskedImage" onLoad="updateImage();"></div>
+
+<form name="form1" method="post" action="setMask">
+	
+<div style="height:40px" align="center">Drawing size:&nbsp;&nbsp;<label><input name="drawSize" id="drawSize0" value="0" type="radio" checked> Small</label> <label><input name="drawSize" id="drawSize1" value="1" type="radio"> Medium</label> <label><input name="drawSize" id="drawSize2" value="2" type="radio"> Large</label>
+
+&nbsp;&nbsp;&nbsp;<button class="push" type="button" id="setAllButton" onClick="setAll()">Set all</button> <button class="push" type="button" id="clearAllButton" onClick="clearAll()">Clear all</button> <button class="push" type="button" id="invertAllButton" onClick="invertAll()">Invert all</button>
+
+</div>
+
+<div align="center">
+<button class="push" type="button" style="width:80px" name="action" value="cancel" onClick="javascript:parent.TINY.box.hide();return false;">Cancel</button> <button type="submit" class="push" style="width:80px" name="action" value="save" id="save" onClick="setMaskElementValues();return true;">Save</button>
+
+<input name="cameraNum" type="hidden">
+<input name="0" id="m0" type="hidden"><input name="1" id="m1" type="hidden"><input name="2" id="m2" type="hidden"><input name="3" id="m3" type="hidden"><input name="4" id="m4" type="hidden"><input name="5" id="m5" type="hidden"><input name="6" id="m6" type="hidden"><input name="7" id="m7" type="hidden"><input name="8" id="m8" type="hidden"><input name="9" id="m9" type="hidden"><input name="10" id="m10" type="hidden"><input name="11" id="m11" type="hidden"><input name="12" id="m12" type="hidden"><input name="13" id="m13" type="hidden"><input name="14" id="m14" type="hidden"><input name="15" id="m15" type="hidden"><input name="16" id="m16" type="hidden"><input name="17" id="m17" type="hidden"><input name="18" id="m18" type="hidden"><input name="19" id="m19" type="hidden"><input name="20" id="m20" type="hidden"><input name="21" id="m21" type="hidden"><input name="22" id="m22" type="hidden"><input name="23" id="m23" type="hidden"><input name="24" id="m24" type="hidden"><input name="25" id="m25" type="hidden"><input name="26" id="m26" type="hidden"><input name="27" id="m27" type="hidden"><input name="28" id="m28" type="hidden"><input name="29" id="m29" type="hidden"><input name="30" id="m30" type="hidden"><input name="31" id="m31" type="hidden">
+</div>
+
+</form>
+</body>
+</html>
